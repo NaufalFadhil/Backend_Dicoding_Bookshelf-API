@@ -32,9 +32,10 @@ exports.addBookHandler = (request, h) => {
   }
 
   const id = nanoid(16);
+  const finishedStatus = false;
 
   const updatedAt = new Date().toISOString();
-  const createdAt = updatedAt;
+  const insertedAt = updatedAt;
 
   const newBook = {
     id,
@@ -45,8 +46,9 @@ exports.addBookHandler = (request, h) => {
     publisher,
     pageCount,
     readPage,
+    finished: finishedStatus,
     reading,
-    createdAt,
+    insertedAt,
     updatedAt,
   };
 
@@ -73,12 +75,22 @@ exports.addBookHandler = (request, h) => {
   return response;
 };
 
-exports.getAllBooksHandler = () => ({
-  status: 'success',
-  data: {
-    books,
-  },
-});
+exports.getAllBooksHandler = (request, h) => {
+  const bookMap = books.map((book) => ({
+    id: book.id,
+    name: book.name,
+    publisher: book.publisher,
+  }));
+
+  const response = h.response({
+    status: 'success',
+    data: {
+      books: bookMap,
+    },
+  });
+  response.code(200);
+  return response;
+};
 
 exports.getBookByIdHandler = (request, h) => {
   const { id } = request.params;
