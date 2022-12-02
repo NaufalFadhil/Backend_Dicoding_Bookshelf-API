@@ -32,10 +32,13 @@ exports.addBookHandler = (request, h) => {
   }
 
   const id = nanoid(16);
-  const finishedStatus = false;
 
   const updatedAt = new Date().toISOString();
   const insertedAt = updatedAt;
+  let finishedStatus = false;
+  if (readPage === pageCount) {
+    finishedStatus = true;
+  }
 
   const newBook = {
     id,
@@ -76,7 +79,28 @@ exports.addBookHandler = (request, h) => {
 };
 
 exports.getAllBooksHandler = (request, h) => {
-  const bookMap = books.map((book) => ({
+  const { reading, finished, name } = request.query;
+  let bookData = books;
+
+  console.log(name !== undefined);
+
+  if (reading === '1') {
+    bookData = bookData.filter((book) => book.reading === true);
+  } else if (reading === '0') {
+    bookData = bookData.filter((book) => book.reading === false);
+  }
+
+  if (finished === '1') {
+    bookData = bookData.filter((book) => book.finished === true);
+  } else if (finished === '0') {
+    bookData = bookData.filter((book) => book.finished === false);
+  }
+
+  if (name !== undefined) {
+    bookData = bookData.filter((book) => book.name.toLowerCase().includes(name.toLowerCase()));
+  }
+
+  const booksMap = bookData.map((book) => ({
     id: book.id,
     name: book.name,
     publisher: book.publisher,
@@ -85,7 +109,7 @@ exports.getAllBooksHandler = (request, h) => {
   const response = h.response({
     status: 'success',
     data: {
-      books: bookMap,
+      books: booksMap,
     },
   });
   response.code(200);
