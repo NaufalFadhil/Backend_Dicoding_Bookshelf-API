@@ -39,7 +39,7 @@ exports.addBookHandler = (request, h) => {
   if (isSuccess) {
     const response = h.response({
       status: 'success',
-      message: 'Catatan berhasil ditambahkan',
+      message: 'Buku berhasil ditambahkan',
       data: {
         bookId: id,
       },
@@ -49,7 +49,7 @@ exports.addBookHandler = (request, h) => {
   }
   const response = h.response({
     status: 'fail',
-    message: 'Catatan gagal ditambahkan',
+    message: 'Buku gagal ditambahkan',
   });
   response.code(500);
   return response;
@@ -78,7 +78,7 @@ exports.getBookByIdHandler = (request, h) => {
 
   const response = h.response({
     status: 'fail',
-    message: 'Catatan tidak ditemukan',
+    message: 'Buku tidak ditemukan',
   });
   response.code(404);
   return response;
@@ -103,7 +103,7 @@ exports.editBookByIdHandler = (request, h) => {
 
     const response = h.response({
       status: 'success',
-      message: 'Catatan berhasil diperbarui',
+      message: 'Buku berhasil diperbarui',
     });
     response.code(200);
     return response;
@@ -127,7 +127,7 @@ exports.deleteBookByIdHandler = (request, h) => {
 
     const response = h.response({
       status: 'success',
-      message: 'Catatan berhasil dihapus',
+      message: 'Buku berhasil dihapus',
     });
 
     response.code(200);
@@ -136,7 +136,7 @@ exports.deleteBookByIdHandler = (request, h) => {
 
   const response = h.response({
     status: 'fail',
-    message: 'Catatan gagal dihapus. Id tidak ditemukan',
+    message: 'Buku gagal dihapus. Id tidak ditemukan',
   });
 
   response.code(404);
