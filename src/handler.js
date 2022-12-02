@@ -32,11 +32,7 @@ exports.addBookHandler = (request, h) => {
     updatedAt,
   };
 
-  console.log(newBook);
-
   books.push(newBook);
-
-  console.log(books);
 
   const isSuccess = books.filter((book) => book.id === id).length > 0;
 
@@ -56,5 +52,34 @@ exports.addBookHandler = (request, h) => {
     message: 'Catatan gagal ditambahkan',
   });
   response.code(500);
+  return response;
+};
+
+exports.getAllBooksHandler = () => ({
+  status: 'success',
+  data: {
+    books,
+  },
+});
+
+exports.getBookByIdHandler = (request, h) => {
+  const { id } = request.params;
+
+  const book = books.filter((n) => n.id === id)[0];
+
+  if (book !== undefined) {
+    return {
+      status: 'success',
+      data: {
+        book,
+      },
+    };
+  }
+
+  const response = h.response({
+    status: 'fail',
+    message: 'Catatan tidak ditemukan',
+  });
+  response.code(404);
   return response;
 };
