@@ -13,6 +13,15 @@ exports.addBookHandler = (request, h) => {
     reading,
   } = request.payload;
 
+  if (!name) {
+    const response = h.response({
+      status: 'fail',
+      message: 'Gagal menambahkan buku. Mohon isi nama buku',
+    });
+    response.code(400);
+    return response;
+  }
+
   const id = nanoid(16);
 
   const updatedAt = new Date().toISOString();
